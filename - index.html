@@ -7,8 +7,6 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="font-medium">
-
-  <!-- ACCESSIBILITY OVERLAY TOOLBAR -->
   <aside id="a11y-panel" class="a11y-tray" aria-label="Accessibility Settings">
     <div class="a11y-controls">
       <button class="a11y-btn" onclick="appState.toggleDarkMode()" aria-label="Toggle Dark Mode">🌓 Dark Mode</button>
@@ -24,7 +22,6 @@
     </div>
   </aside>
 
-  <!-- NAVIGATION -->
   <header>
     <div class="brand">
       <h1 data-i18n="app_title">🎨🎵 Art & Music Community</h1>
@@ -44,13 +41,10 @@
     </div>
   </header>
 
-  <!-- TOAST NOTIFICATION CONTAINER -->
   <div id="toast-container" class="toast-stack" aria-live="polite"></div>
 
-  <!-- MAIN VIEWPORT -->
   <main id="app-root">
 
-    <!-- 1. HOME VIEW -->
     <section id="view-home" class="view-panel active">
       <div class="hero-banner">
         <h2 id="welcome-msg">Welcome back, Nookesh!</h2>
@@ -81,7 +75,6 @@
       </div>
     </section>
 
-    <!-- 2. ART STUDIO -->
     <section id="view-art" class="view-panel">
       <div class="studio-header">
         <h2 data-i18n="nav_art">🎨 Advanced Art Studio</h2>
@@ -108,7 +101,6 @@
       <div class="canvas-viewport" id="canvas-wrapper"></div>
     </section>
 
-    <!-- 3. MUSIC STUDIO -->
     <section id="view-music" class="view-panel">
       <div class="studio-header">
         <h2 data-i18n="nav_music">🎵 Advanced Music Studio</h2>
@@ -130,7 +122,6 @@
       <div class="instrument-stage" id="instrument-mount"></div>
     </section>
 
-    <!-- 4. RELAX MODE -->
     <section id="view-relax" class="view-panel">
       <h2>🧘 Therapeutic Relaxation Mode</h2>
       <div class="relax-grid">
@@ -158,7 +149,6 @@
       </div>
     </section>
 
-    <!-- 5. KIDS ZONE -->
     <section id="view-kids" class="view-panel kids-theme">
       <div class="kids-header">
         <h2>👶 Kids Zone & Games!</h2>
@@ -172,7 +162,6 @@
       <div id="kids-play-stage" class="kids-stage"></div>
     </section>
 
-    <!-- 6. COURSES & LEARNERS HUB -->
     <section id="view-learn" class="view-panel">
       <h2>📚 Learners Hub & Video Courses</h2>
       <div class="grid-2col">
@@ -198,13 +187,11 @@
       </div>
     </section>
 
-    <!-- 7. PERSONAL GALLERY -->
     <section id="view-gallery" class="view-panel">
       <h2>💾 My Personal Gallery</h2>
       <div class="gallery-grid" id="gallery-cards"></div>
     </section>
 
-    <!-- 8. ADMIN DASHBOARD -->
     <section id="view-admin" class="view-panel">
       <h2>👨‍💼 Admin Platform Dashboard</h2>
       <div class="admin-stats">
