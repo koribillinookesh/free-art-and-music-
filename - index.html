@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Art & Music Community</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="font-medium">
+
+  <!-- ACCESSIBILITY OVERLAY TOOLBAR -->
+  <aside id="a11y-panel" class="a11y-tray" aria-label="Accessibility Settings">
+    <div class="a11y-controls">
+      <button class="a11y-btn" onclick="appState.toggleDarkMode()" aria-label="Toggle Dark Mode">🌓 Dark Mode</button>
+      <button class="a11y-btn" onclick="appState.toggleHighContrast()" aria-label="Toggle High Contrast">👁️ High Contrast</button>
+      <button class="a11y-btn" onclick="appState.toggleDyslexiaFont()" aria-label="Toggle Dyslexia Font">📖 Dyslexia Font</button>
+      <button class="a11y-btn" onclick="speechEngine.toggleSTT()" id="stt-btn" aria-label="Toggle Voice Control">🎙️ Voice Commands</button>
+      <button class="a11y-btn" onclick="speechEngine.readActiveView()" aria-label="Read Page Out Loud">🔊 Read Screen</button>
+      <select id="lang-picker" onchange="i18n.setLanguage(this.value)" aria-label="Select Language">
+        <option value="en">English</option>
+        <option value="te">తెలుగు (Telugu)</option>
+        <option value="hi">हिन्दी (Hindi)</option>
+      </select>
+    </div>
+  </aside>
+
+  <!-- NAVIGATION -->
+  <header>
+    <div class="brand">
+      <h1 data-i18n="app_title">🎨🎵 Art & Music Community</h1>
+    </div>
+    <nav aria-label="Main Navigation">
+      <button class="nav-btn" onclick="router.navigate('home')" data-i18n="nav_home">🏠 Home</button>
+      <button class="nav-btn" onclick="router.navigate('art')" data-i18n="nav_art">🎨 Art Studio</button>
+      <button class="nav-btn" onclick="router.navigate('music')" data-i18n="nav_music">🎵 Music Studio</button>
+      <button class="nav-btn" onclick="router.navigate('relax')" data-i18n="nav_relax">🧘 Relax</button>
+      <button class="nav-btn" onclick="router.navigate('kids')" data-i18n="nav_kids">👶 Kids Zone</button>
+      <button class="nav-btn" onclick="router.navigate('learn')" data-i18n="nav_learn">📚 Courses</button>
+      <button class="nav-btn" onclick="router.navigate('gallery')" data-i18n="nav_gallery">💾 Gallery</button>
+      <button class="nav-btn" onclick="router.navigate('admin')" data-i18n="nav_admin">👨‍💼 Admin</button>
+    </nav>
+    <div class="user-badge" id="hud-badge">
+      ⭐ <span id="hud-stars">245</span> | 🔥 <span id="hud-streak">7</span>d | Lvl <span id="hud-lvl">4</span>
+    </div>
+  </header>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast-container" class="toast-stack" aria-live="polite"></div>
+
+  <!-- MAIN VIEWPORT -->
+  <main id="app-root">
+
+    <!-- 1. HOME VIEW -->
+    <section id="view-home" class="view-panel active">
+      <div class="hero-banner">
+        <h2 id="welcome-msg">Welcome back, Nookesh!</h2>
+        <p class="motivate-text" data-i18n="daily_quote">"Every child is an artist. The problem is how to remain an artist once we grow up." – Pablo Picasso</p>
+      </div>
+
+      <div class="quick-bar">
+        <button class="action-card art-bg" onclick="router.navigate('art')">🎨 <span data-i18n="btn_draw">Draw Now</span></button>
+        <button class="action-card music-bg" onclick="router.navigate('music')">🎵 <span data-i18n="btn_play">Play Music</span></button>
+        <button class="action-card relax-bg" onclick="router.navigate('relax')">🧘 <span data-i18n="btn_relax">Relax</span></button>
+        <button class="action-card kids-bg" onclick="router.navigate('kids')">👶 <span data-i18n="btn_kids">Kids Zone</span></button>
+      </div>
+
+      <div class="grid-2col">
+        <div class="card">
+          <h3 data-i18n="cont_learn">Continue Learning</h3>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" style="width: 72%;">72%</div>
+          </div>
+          <p>Beginner Drawing: Lesson 3 ▶</p>
+          <button class="btn-primary" onclick="router.navigate('learn')">Resume Lesson</button>
+        </div>
+        <div class="card">
+          <h3 data-i18n="daily_chal">Daily Challenge</h3>
+          <p>🎯 Draw a landscape using only Watercolor & Warm Colors (+20 ⭐)</p>
+          <button class="btn-secondary" onclick="appState.claimChallenge()">Complete & Claim</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. ART STUDIO -->
+    <section id="view-art" class="view-panel">
+      <div class="studio-header">
+        <h2 data-i18n="nav_art">🎨 Advanced Art Studio</h2>
+        <div class="toolset">
+          <input type="color" id="art-color" value="#4f46e5" aria-label="Color Picker">
+          <label>Size: <input type="range" id="art-size" min="1" max="60" value="6"></label>
+          <label>Opacity: <input type="range" id="art-opacity" min="0.1" max="1.0" step="0.1" value="1.0"></label>
+          <select id="art-tool" onchange="canvasEngine.setTool(this.value)">
+            <option value="brush">🖌️ Brush</option>
+            <option value="pencil">✏️ Pencil</option>
+            <option value="watercolor">💧 Watercolor</option>
+            <option value="eraser">🧹 Eraser</option>
+            <option value="rectangle">⬛ Rectangle</option>
+            <option value="circle">⭕ Circle</option>
+            <option value="line">📏 Line</option>
+          </select>
+          <button class="btn-sm" onclick="canvasEngine.undo()">↩️ Undo</button>
+          <button class="btn-sm" onclick="canvasEngine.redo()">↪️ Redo</button>
+          <button class="btn-sm" onclick="canvasEngine.addLayer()">+ Layer</button>
+          <button class="btn-sm" onclick="canvasEngine.exportPNG()">💾 Export PNG</button>
+          <button class="btn-sm" onclick="canvasEngine.saveToGallery()">❤️ Save to Gallery</button>
+        </div>
+      </div>
+      <div class="canvas-viewport" id="canvas-wrapper"></div>
+    </section>
+
+    <!-- 3. MUSIC STUDIO -->
+    <section id="view-music" class="view-panel">
+      <div class="studio-header">
+        <h2 data-i18n="nav_music">🎵 Advanced Music Studio</h2>
+        <div class="toolset">
+          <select id="inst-select" onchange="audioEngine.setInstrument(this.value)">
+            <option value="piano">🎹 Piano</option>
+            <option value="flute">🪈 Flute</option>
+            <option value="veena">🪕 Veena</option>
+            <option value="guitar">🎸 Guitar</option>
+            <option value="violin">🎻 Violin</option>
+            <option value="drums">🥁 Drums</option>
+          </select>
+          <button class="btn-sm" id="rec-btn" onclick="audioEngine.toggleRecording()">🔴 Record</button>
+          <button class="btn-sm" onclick="audioEngine.playback()">▶️ Playback</button>
+          <label>Tempo (BPM): <input type="range" id="tempo-slider" min="60" max="180" value="120"></label>
+          <button class="btn-sm" onclick="audioEngine.toggleMetronome()" id="metro-btn">⏱️ Metronome</button>
+        </div>
+      </div>
+      <div class="instrument-stage" id="instrument-mount"></div>
+    </section>
+
+    <!-- 4. RELAX MODE -->
+    <section id="view-relax" class="view-panel">
+      <h2>🧘 Therapeutic Relaxation Mode</h2>
+      <div class="relax-grid">
+        <div class="mixer-card">
+          <h3>Ambient Soundscapes</h3>
+          <div class="mixer-row">
+            <span>🌧️ Rain</span>
+            <input type="range" min="0" max="1" step="0.1" value="0" onchange="relaxEngine.setAmbient('rain', this.value)">
+          </div>
+          <div class="mixer-row">
+            <span>🌊 Ocean</span>
+            <input type="range" min="0" max="1" step="0.1" value="0" onchange="relaxEngine.setAmbient('ocean', this.value)">
+          </div>
+          <div class="mixer-row">
+            <span>🔥 Fireplace</span>
+            <input type="range" min="0" max="1" step="0.1" value="0" onchange="relaxEngine.setAmbient('fire', this.value)">
+          </div>
+        </div>
+        <div class="breathing-card">
+          <h3>Box Breathing Session</h3>
+          <p id="breath-label">Click Start to begin</p>
+          <div class="breath-visual" id="breath-orb"></div>
+          <button class="btn-primary" onclick="relaxEngine.startSession(5)">Start 5-Min Session</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. KIDS ZONE -->
+    <section id="view-kids" class="view-panel kids-theme">
+      <div class="kids-header">
+        <h2>👶 Kids Zone & Games!</h2>
+        <p>Fun Drawing Games & Step-by-Step Cartoons!</p>
+      </div>
+      <div class="kids-menu">
+        <button class="big-kid-btn" onclick="kidsEngine.loadActivity('color')">🎨 Color Matching</button>
+        <button class="big-kid-btn" onclick="kidsEngine.loadActivity('trace')">✏️ Draw Numbers & Letters</button>
+        <button class="big-kid-btn" onclick="kidsEngine.loadActivity('video')">📺 Cartoon Drawing Videos</button>
+      </div>
+      <div id="kids-play-stage" class="kids-stage"></div>
+    </section>
+
+    <!-- 6. COURSES & LEARNERS HUB -->
+    <section id="view-learn" class="view-panel">
+      <h2>📚 Learners Hub & Video Courses</h2>
+      <div class="grid-2col">
+        <div class="card">
+          <h3>🎨 Complete Drawing Masterclass</h3>
+          <ul class="lesson-list">
+            <li>✅ Lesson 1: Shapes & Lines</li>
+            <li>✅ Lesson 2: Light & Shadows</li>
+            <li>▶️ Lesson 3: Color Blending (In Progress)</li>
+            <li>🔒 Lesson 4: Perspective Drawing</li>
+            <li>🔒 Lesson 5: Final Submission</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>🎵 Music Theory & Keys</h3>
+          <ul class="lesson-list">
+            <li>✅ Lesson 1: Understanding Scales</li>
+            <li>▶️ Lesson 2: Rhythm & Metronome</li>
+            <li>🔒 Lesson 3: Polyphonic Chords</li>
+            <li>🔒 Lesson 4: Playing Classical Melodies</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. PERSONAL GALLERY -->
+    <section id="view-gallery" class="view-panel">
+      <h2>💾 My Personal Gallery</h2>
+      <div class="gallery-grid" id="gallery-cards"></div>
+    </section>
+
+    <!-- 8. ADMIN DASHBOARD -->
+    <section id="view-admin" class="view-panel">
+      <h2>👨‍💼 Admin Platform Dashboard</h2>
+      <div class="admin-stats">
+        <div class="stat-box"><h4>Total Users</h4><p>1,245</p></div>
+        <div class="stat-box"><h4>Active Sessions</h4><p>386</p></div>
+        <div class="stat-box"><h4>Artworks Saved</h4><p>4,832</p></div>
+        <div class="stat-box"><h4>Recordings</h4><p>1,293</p></div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="src/i18n.js"></script>
+  <script src="src/speech.js"></script>
+  <script src="src/canvasEngine.js"></script>
+  <script src="src/audioEngine.js"></script>
+  <script src="src/relaxEngine.js"></script>
+  <script src="src/kidsEngine.js"></script>
+  <script src="src/app.js"></script>
+</body>
+</html>
